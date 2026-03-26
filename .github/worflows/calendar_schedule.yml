@@ -1,0 +1,23 @@
+name: Daily Economic Calendar
+
+on:
+  schedule:
+    - cron: '0 23 * * *' # UTC 23:00 = 한국 시간 오전 08:00
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+      - name: Install dependencies
+        run: |
+          pip install requests beautifulsoup4
+      - name: Run Calendar
+        env:
+          CALENDAR_WEBHOOK: ${{ secrets.CALENDAR_WEBHOOK }}
+        run: python economic_calendar.py
