@@ -2,8 +2,8 @@ name: Market Intelligence Suite
 
 on:
   schedule:
-    - cron: '0 23 * * *' # 한국 시간 오전 8시 (매일 실행)
-  workflow_dispatch: # 수동 실행 버튼
+    - cron: '0 23 * * *' # 한국 시간 오전 8시
+  workflow_dispatch: # 수동 실행 버튼 (이걸로 테스트하세요)
 
 jobs:
   build:
@@ -17,17 +17,17 @@ jobs:
         with:
           python-version: '3.9'
 
-      - name: Install dependencies
+      - name: Install dependencies (모든 연장 챙기기)
         run: |
           python -m pip install --upgrade pip
           pip install pandas requests lxml html5lib beautifulsoup4
 
-      - name: Run Economic Calendar
+      - name: 1. 경제 캘린더 실행
         env:
           CALENDAR_WEBHOOK: ${{ secrets.CALENDAR_WEBHOOK }}
         run: python economic_calendar.py
 
-      - name: Run Whale Tracker
+      - name: 2. 고래 추적기 실행
         env:
           WHALE_WEBHOOK: ${{ secrets.WHALE_WEBHOOK }}
         run: python whale_tracker.py
