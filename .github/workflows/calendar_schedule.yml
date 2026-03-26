@@ -26,3 +26,8 @@ jobs:
         env:
           CALENDAR_WEBHOOK: ${{ secrets.CALENDAR_WEBHOOK }}
         run: python economic_calendar.py
+        # 티커
+      - name: Run Whale Tracker
+        env:
+          WHALE_WEBHOOK: ${{ secrets.WHALE_WEBHOOK }}
+        run: python whale_tracker.py
