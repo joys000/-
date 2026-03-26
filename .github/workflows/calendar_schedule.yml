@@ -1,9 +1,9 @@
-name: Daily Economic Calendar
+name: Market Intelligence Suite
 
 on:
   schedule:
-    - cron: '0 23 * * *' # 한국 시간 오전 8시
-  workflow_dispatch:
+    - cron: '0 23 * * *' # 한국 시간 오전 8시 (매일 실행)
+  workflow_dispatch: # 수동 실행 버튼
 
 jobs:
   build:
@@ -20,13 +20,13 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install -r requirements.txt
+          pip install pandas requests lxml html5lib beautifulsoup4
 
-      - name: Run Calendar
+      - name: Run Economic Calendar
         env:
           CALENDAR_WEBHOOK: ${{ secrets.CALENDAR_WEBHOOK }}
         run: python economic_calendar.py
-        # 티커
+
       - name: Run Whale Tracker
         env:
           WHALE_WEBHOOK: ${{ secrets.WHALE_WEBHOOK }}
